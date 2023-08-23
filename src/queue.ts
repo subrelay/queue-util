@@ -1,4 +1,3 @@
-
 export type BlockJobData = {
   jobId: string;
   success: boolean;
@@ -14,8 +13,6 @@ export type QueueMessage = {
 };
 
 export abstract class Queue {
-  protected constructor() {}
-
   abstract sendMessage(message: QueueMessage): Promise<void>;
   abstract sendMessages(messages: QueueMessage[]): Promise<void>;
   abstract startWorker(processorFn: (msg: QueueMessage) => void): void;
