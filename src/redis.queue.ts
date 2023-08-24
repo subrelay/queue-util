@@ -52,7 +52,7 @@ export class RedisQueue extends Queue {
       }
     );
 
-    worker.on("completed", (job, err) => console.log(`Success job ${job?.id}`));
+    worker.on("completed", (job) => console.log(`Success job ${job?.id}`));
 
     worker.on("failed", (job, err) =>
       console.log(`Failed job ${job?.id} with ${err}`)
