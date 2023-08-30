@@ -52,6 +52,7 @@ jobs:
         env:
           NPM_USER: ${{ secrets.NPM_USERNAME }}
           NPM_PASS: ${{ secrets.NPM_PASSWORD }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_NODE_AUTH_TOKEN }}
           NPM_EMAIL: 'ttdiemchi@gmail.com'
       - run: npm ci
       - run: npm publish --access=public
