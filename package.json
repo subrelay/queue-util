@@ -9,7 +9,6 @@
   "scripts": {
     "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --runInBand --forceExit",
     "build": "rimraf -rf dist && tsc -p tsconfig.json",
-    "release": "yarn build",
     "format": "prettier --write **/*.{ts,json}",
     "lint": "eslint \"lib/**/*.ts\" --fix"
   },
