@@ -48,7 +48,7 @@ jobs:
       - name: NPM login
         run: |
           npm install -g npm-cli-login npm
-          npm-cli-login -r https://registry.npmjs.org -s @subrelay --config-path ~/.npmrc
+          npm login --scope=@subrelay --registry=https://registry.npmjs.org
         env:
           NPM_USER: ${{ secrets.NPM_USERNAME }}
           NPM_PASS: ${{ secrets.NPM_PASSWORD }}
