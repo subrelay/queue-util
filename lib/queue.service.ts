@@ -6,6 +6,7 @@ import {
   QueueMessageHandlerMeta,
   QueueName,
   QueueOptions,
+  QueueType,
 } from './queue.types';
 import { DiscoveredMethodWithMeta, DiscoveryService } from '@golevelup/nestjs-discovery';
 import { QUEUE_CONSUMER_EVENT_HANDLER, QUEUE_CONSUMER_METHOD, QUEUE_OPTIONS } from './queue.constants';
@@ -43,6 +44,24 @@ export class QueueService implements OnModuleInit {
     for (const consumer of this.consumers.values()) {
       consumer.start();
     }
+  }
+
+  public getProducerQueueType(name: QueueName): QueueType {
+    if (!this.producers.has(name)) {
+      throw new Error(`Producer does not exist: ${name}`);
+    }
+
+    const producer = this.producers.get(name);
+    return producer.getQueueType();
+  }
+
+  public getConsumerQueueType(name: QueueName): QueueType {
+    if (!this.consumers.has(name)) {
+      throw new Error(`Consumer does not exist: ${name}`);
+    }
+
+    const consumer = this.consumers.get(name);
+    return consumer.getQueueType();
   }
 
   public send<T = any>(name: QueueName, payload: QueueMessage<T> | QueueMessage<T>[]): void {
