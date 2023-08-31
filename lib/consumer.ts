@@ -1,10 +1,11 @@
 import { SQSConnectionOptions, SQSConsumerClient, SQSConsumerMessage } from './type/sqs.types';
 import { RedisConnectionOptions, RedisConsumerClient, RedisMessage } from './type/redis.types';
-import { QueueMessage } from './queue.types';
+import { QueueMessage, QueueType } from './queue.types';
 
 export abstract class QueueConsumer {
   abstract start(): void;
   abstract addListener(eventName: string, listener: (...args: any[]) => void): void;
+  abstract getQueueType(): QueueType;
 }
 
 export class SQSConsumer<T> extends QueueConsumer {
@@ -15,6 +16,10 @@ export class SQSConsumer<T> extends QueueConsumer {
 
   addListener(eventName: string, listener: (...args: any[]) => void) {
     this.consumer.addListener(eventName, listener);
+  }
+
+  getQueueType(): QueueType {
+    return QueueType.SQS;
   }
 
   fromSQSProduceMessages<T>(message: SQSConsumerMessage): QueueMessage<T> {
@@ -51,6 +56,10 @@ export class RedisConsumer extends QueueConsumer {
   private consumer: RedisConsumerClient;
   start(): void {
     this.consumer.run();
+  }
+
+  getQueueType(): QueueType {
+    return QueueType.REDIS;
   }
 
   addListener(eventName: string, listener: (...args: any[]) => void) {
