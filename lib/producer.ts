@@ -23,7 +23,10 @@ export class SQSProducer extends QueueProducer {
 
       return {
         ...message,
+        id: message.id,
         body,
+        groupId: message.id,
+        deduplicationId: message.id,
       };
     });
   }

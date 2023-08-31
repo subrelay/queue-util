@@ -1,5 +1,5 @@
 import { SQSConnectionOptions, SQSConsumerClient, SQSConsumerMessage } from './type/sqs.types';
-import { RedisConnectionOptions, RedisConsumerClient } from './type/redis.types';
+import { RedisConnectionOptions, RedisConsumerClient, RedisMessage } from './type/redis.types';
 import { QueueMessage } from './queue.types';
 
 export abstract class QueueConsumer {
@@ -55,6 +55,13 @@ export class RedisConsumer extends QueueConsumer {
 
   addListener(eventName: string, listener: (...args: any[]) => void) {
     this.consumer.addListener(eventName, listener);
+  }
+
+  fromRedisProduceMessages<T>(message: RedisMessage): QueueMessage<T> {
+    return {
+      id: message.name,
+      body: message.data,
+    };
   }
 
   constructor(options: RedisConnectionOptions, processor: any) {
