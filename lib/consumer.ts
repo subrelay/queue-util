@@ -75,7 +75,8 @@ export class RedisConsumer extends QueueConsumer {
 
   constructor(options: RedisConnectionOptions, processor: any) {
     super();
-    this.consumer = new RedisConsumerClient(options.name, processor, {
+    const redisProcessor = async (message) => processor(this.fromRedisProduceMessages(message));
+    this.consumer = new RedisConsumerClient(options.name, redisProcessor, {
       autorun: false,
       connection: options,
     });

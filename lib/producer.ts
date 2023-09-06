@@ -49,7 +49,15 @@ export class RedisProducer extends QueueProducer {
   }
 
   send(messages: QueueMessage[]): void {
-    this.producer.addBulk(messages.map((msg) => ({ name: msg.id, data: msg.body })));
+    const defaultOpts = {
+      removeOnComplete: true,
+      removeOnFail: true,
+      attempts: 3,
+    };
+
+    this.producer.addBulk(
+      messages.map((msg) => ({ name: msg.id, data: msg.body, opts: { ...defaultOpts, jobId: msg.id } })),
+    );
   }
 
   constructor(options: RedisConnectionOptions) {
