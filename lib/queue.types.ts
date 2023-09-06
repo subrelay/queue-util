@@ -41,7 +41,7 @@ export interface QueueConsumerEventHandlerMeta {
   eventName: string;
 }
 
-export interface QueueMessage<T=any> {
+export interface QueueMessage<T = any> {
   id: string;
   body: T;
 }
